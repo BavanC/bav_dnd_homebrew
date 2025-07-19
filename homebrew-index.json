@@ -1,13 +1,13 @@
 {
   "_meta": {
+    "isHomebrew": true,
+    "edition": "one",
     "sources": [
       {
         "json": "MRV1",
         "abbreviation": "MRV1",
         "full": "The Mystic Class revised v1.1",
-        "authors": [
-          "BUONO"
-        ],
+        "authors": [ "BUONO" ],
         "version": "1.1",
         "color": "8A2BE2"
       },
@@ -16,32 +16,15 @@
         "abbreviation": "GMB:VDC",
         "full": "Veil Domain Cleric",
         "url": "https://www.gmbinder.com/",
-        "authors": [
-          "GMBinder User"
-        ],
+        "authors": [ "GMBinder User" ],
         "version": "1.0"
       },
       {
         "json": "WorldsBeyondNumberWitch",
         "abbreviation": "WBNW",
         "full": "Worlds Beyond Number: Witch",
-        "authors": [
-          "Erika Ishii",
-          "Brennan Lee Mulligan",
-          "Brandes Stoddard",
-          "Mazey Veselak",
-          "Dan Dillon",
-          "Hannah Rose",
-          "Ruby Lavin",
-          "Corey Brickley",
-          "Tucker Donovan",
-          "Jack Jones",
-          "Lorena Lammer",
-          "Taylor Moore"
-        ],
-        "convertedBy": [
-          "Unknown"
-        ],
+        "authors": [ "Erika Ishii", "Brennan Lee Mulligan", "Brandes Stoddard", "Mazey Veselak", "Dan Dillon", "Hannah Rose", "Ruby Lavin", "Corey Brickley", "Tucker Donovan", "Jack Jones", "Lorena Lammer", "Taylor Moore" ],
+        "convertedBy": [ "Unknown" ],
         "version": "3.1",
         "color": "E30102",
         "url": "https://www.patreon.com/worldsbeyondnumber",
