@@ -12,6 +12,16 @@
         "color": "8A2BE2"
       },
       {
+        "json": "GMB-VDC",
+        "abbreviation": "GMB:VDC",
+        "full": "Veil Domain Cleric",
+        "url": "https://www.gmbinder.com/",
+        "authors": [
+          "GMBinder User"
+        ],
+        "version": "1.0"
+      },
+      {
         "json": "WorldsBeyondNumberWitch",
         "abbreviation": "WBNW",
         "full": "Worlds Beyond Number: Witch",
@@ -46,15 +56,15 @@
       "contents": [
         {
           "source": "MRV1",
-          "url": "https://raw.githubusercontent.com/BavanC/bav_dnd_homebrew/refs/heads/main/class_immortal.json"
+          "url": "https://raw.githubusercontent.com/BavanC/bav_dnd_homebrew/main/class_immortal.json"
         },
         {
-          "source": "gmb-vdc",
-          "url": "https://raw.githubusercontent.com/BavanC/bav_dnd_homebrew/refs/heads/main/subclass_veil_class_cleric.json"
+          "source": "GMB-VDC",
+          "url": "https://raw.githubusercontent.com/BavanC/bav_dnd_homebrew/main/subclass_veil_class_cleric.json"
         },
         {
           "source": "WorldsBeyondNumberWitch",
-          "url": "https://raw.githubusercontent.com/BavanC/bav_dnd_homebrew/refs/heads/main/Worlds%20Beyond%20Number%3B%20Witch.json"
+          "url": "https://raw.githubusercontent.com/BavanC/bav_dnd_homebrew/main/Worlds%20Beyond%20Number%3B%20Witch.json"
         }
       ]
     }
