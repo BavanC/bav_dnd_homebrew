@@ -910,8 +910,7 @@
                     ]
                 }
             ]
-        },
-        {
+        },{
             "name": "Unseen Blow",
             "source": "MRV1",
             "className": "Mystic",
