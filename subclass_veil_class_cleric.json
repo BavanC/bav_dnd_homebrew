@@ -30,6 +30,7 @@
             ],
             "additionalSpells": [
                 {
+                    "source": "GMB-VDC",
                     "prepared": {
                         "1": [
                             "cure wounds",
