@@ -1,0 +1,21 @@
+{
+  "_meta": {
+    "sources": []
+  },
+  "collection": [
+    {
+      "name": "Bavan's Homebrew Collection",
+      "id": "bavan-homebrew-collection",
+      "contents": [
+        {
+          "source": "MRV1",
+          "url": "https://raw.githubusercontent.com/BavanC/bav_dnd_homebrew/refs/heads/main/class_immortal.json"
+        },
+        {
+          "source": "gmb-vdc",
+          "url": "https://raw.githubusercontent.com/BavanC/bav_dnd_homebrew/refs/heads/main/subclass_veil_class_cleric.json"
+        }
+      ]
+    }
+  ]
+}
