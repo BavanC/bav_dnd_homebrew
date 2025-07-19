@@ -1,6 +1,43 @@
 {
   "_meta": {
-    "sources": []
+    "sources": [
+      {
+        "json": "MRV1",
+        "abbreviation": "MRV1",
+        "full": "The Mystic Class revised v1.1",
+        "authors": [
+          "BUONO"
+        ],
+        "version": "1.1",
+        "color": "8A2BE2"
+      },
+      {
+        "json": "WorldsBeyondNumberWitch",
+        "abbreviation": "WBNW",
+        "full": "Worlds Beyond Number: Witch",
+        "authors": [
+          "Erika Ishii",
+          "Brennan Lee Mulligan",
+          "Brandes Stoddard",
+          "Mazey Veselak",
+          "Dan Dillon",
+          "Hannah Rose",
+          "Ruby Lavin",
+          "Corey Brickley",
+          "Tucker Donovan",
+          "Jack Jones",
+          "Lorena Lammer",
+          "Taylor Moore"
+        ],
+        "convertedBy": [
+          "Unknown"
+        ],
+        "version": "3.1",
+        "color": "E30102",
+        "url": "https://www.patreon.com/worldsbeyondnumber",
+        "dateReleased": "2024-12-01"
+      }
+    ]
   },
   "collection": [
     {
@@ -14,6 +51,10 @@
         {
           "source": "gmb-vdc",
           "url": "https://raw.githubusercontent.com/BavanC/bav_dnd_homebrew/refs/heads/main/subclass_veil_class_cleric.json"
+        },
+        {
+          "source": "WorldsBeyondNumberWitch",
+          "url": "https://raw.githubusercontent.com/BavanC/bav_dnd_homebrew/refs/heads/main/Worlds%20Beyond%20Number%3B%20Witch.json"
         }
       ]
     }
