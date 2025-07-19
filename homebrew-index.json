@@ -18,17 +18,6 @@
         "url": "https://www.gmbinder.com/",
         "authors": [ "GMBinder User" ],
         "version": "1.0"
-      },
-      {
-        "json": "WorldsBeyondNumberWitch",
-        "abbreviation": "WBNW",
-        "full": "Worlds Beyond Number: Witch",
-        "authors": [ "Erika Ishii", "Brennan Lee Mulligan", "Brandes Stoddard", "Mazey Veselak", "Dan Dillon", "Hannah Rose", "Ruby Lavin", "Corey Brickley", "Tucker Donovan", "Jack Jones", "Lorena Lammer", "Taylor Moore" ],
-        "convertedBy": [ "Unknown" ],
-        "version": "3.1",
-        "color": "E30102",
-        "url": "https://www.patreon.com/worldsbeyondnumber",
-        "dateReleased": "2024-12-01"
       }
     ]
   },
@@ -44,10 +33,6 @@
         {
           "source": "GMB-VDC",
           "url": "https://raw.githubusercontent.com/BavanC/bav_dnd_homebrew/main/subclass_veil_class_cleric.json"
-        },
-        {
-          "source": "WorldsBeyondNumberWitch",
-          "url": "https://raw.githubusercontent.com/BavanC/bav_dnd_homebrew/main/Worlds%20Beyond%20Number%3B%20Witch.json"
         }
       ]
     }
