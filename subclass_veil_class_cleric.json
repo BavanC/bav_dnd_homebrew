@@ -28,37 +28,17 @@
                 "Potent Spell Casting|Cleric|PHB|Veil|GMB-VDC|8",
                 "Turn the Veil|Cleric|PHB|Veil|GMB-VDC|17"
             ],
-            "additionalSpells": [
-                {
-                    "prepared": {
-                        "1": [
-                            "cure wounds",
-                            "ray of sickness"
-                        ],
-                        "3": [
-                            "lesser restoration",
-                            "ray of enfeeblement"
-                        ],
-                        "5": [
-                            "beacon of hope",
-                            "vampiric touch"
-                        ],
-                        "7": [
-                            "guardian of faith",
-                            "blight"
-                        ],
-                        "9": [
-                            "mass cure wounds",
-                            "cloud kill"
-                        ]
-                    },
-                    "known": {
-                        "1": [
-                            "spare the dying",
-                            "chill touch"
-                        ]
-                    }
-                }
+            "subclassSpells": [
+                    "Cure Wounds",
+                    "Ray of Sickness",
+                    "Lesser Restoration",
+                    "Ray of Enfeeblement",
+                    "Beacon of Hope",
+                    "Vampiric Touch",
+                    "Guardian of Faith",
+                    "Blight",
+                    "Mass Cure Wounds",
+                    "Cloudkill"
             ]
         }
     ],
