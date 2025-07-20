@@ -1,32 +1,39 @@
 {
+    "$schema": "https://raw.githubusercontent.com/TheGiddyLimit/5etools-utils/refs/heads/master/schema/brew-fast/class/class.json",
     "_meta": {
         "sources": [
             {
-                "json": "GMB-VDC",
-                "abbreviation": "GMB:VDC",
-                "full": "Veil Domain Cleric",
-                "url": "https://www.gmbinder.com/",
+                "json": "VeilDomain",
+                "full": "GMBinder",
+                "abbreviation": "GMB",
                 "authors": [
-                    "GMBinder User"
+                    "HACtheGREAT"
+                ],
+                "convertedBy": [
+                    "bav6"
                 ],
                 "version": "1.0",
-                "homebrew": "T"
+                "url": "https://www.gmbinder.com/share/-MeQSvWtpG7wcpIUXFZ3"
             }
-        ]
+        ],
+        "edition": "classic",
+        "status": "ready",
+        "dateAdded": "1753031399",
+        "dateLastModified": "1753031399"
     },
     "subclass": [
         {
             "name": "Veil Domain",
+            "source": "VeilDomain",
             "shortName": "Veil",
-            "source": "GMB-VDC",
             "className": "Cleric",
             "classSource": "PHB",
             "subclassFeatures": [
-                "Veil Domain|Cleric|PHB|Veil|GMB-VDC|1",
-                "Channel Divinity: Choosing Sides|Cleric|PHB|Veil|GMB-VDC|2",
-                "Channel Divinity: Iron Curtain|Cleric|PHB|Veil|GMB-VDC|6",
-                "Potent Spell Casting|Cleric|PHB|Veil|GMB-VDC|8",
-                "Turn the Veil|Cleric|PHB|Veil|GMB-VDC|17"
+                "Veil Domain|Cleric|PHB|Veil|VeilDomain|1",
+                "Channel Divinity: Choosing Sides|Cleric|PHB|Veil|VeilDomain|2",
+                "Channel Divinity: Iron Curtain|Cleric|PHB|Veil|VeilDomain|6",
+                "Potent Spell Casting|Cleric|PHB|Veil|VeilDomain|8",
+                "Turn the Veil|Cleric|PHB|Veil|VeilDomain|17"
             ],
             "subclassSpells": [
                     "Cure Wounds",
@@ -39,42 +46,68 @@
                     "Blight",
                     "Mass Cure Wounds",
                     "Cloudkill"
+            ],
+            "additionalSpells": [
+                {
+                    "prepared": {
+                        "1": [
+                            "Cure Wounds|PHB",
+                            "Ray of Sickness|PHB"
+                        ],
+                        "3": [
+                            "Lesser Restoration|PHB",
+                            "Ray of Enfeeblement|PHB"
+                        ],
+                        "5": [
+                            "Beacon of Hope|PHB",
+                            "Vampiric Touch|PHB"
+                        ],
+                        "7": [
+                            "Guardian of Faith|PHB",
+                            "Blight|PHB"
+                        ],
+                        "9": [
+                            "Mass Cure Wounds|PHB",
+                            "Cloudkill|PHB"
+                        ]
+                    }
+                }
             ]
         }
     ],
     "subclassFeature": [
         {
             "name": "Veil Domain",
-            "source": "GMB-VDC",
+            "source": "VeilDomain",
             "level": 1,
             "className": "Cleric",
             "classSource": "PHB",
             "subclassShortName": "Veil",
-            "subclassSource": "GMB-VDC",
+            "subclassSource": "VeilDomain",
             "entries": [
                 "Clerics of Life and clerics of Death are mainstays of many worlds, but are often very different, separate disciplines. There is a rarer sort of cleric whose dedication is neither to the living nor the dead, but to the boundary which separates them. These clerics of the veil are devotees of balance, who commit themselves to the between things. These followers of gods such as Cramus, Statute, Ma'at, and Nemesis are arbiters of both life and death, and are prepared to regularly make decisions on who should cross that veil into death, and who deserves to return through it to life if taken too soon.",
                 {
                     "type": "refSubclassFeature",
-                    "subclassFeature": "Domain Spells|Cleric|PHB|Veil|GMB-VDC|1"
+                    "subclassFeature": "Domain Spells|Cleric|PHB|Veil|VeilDomain|1"
                 },
                 {
                     "type": "refSubclassFeature",
-                    "subclassFeature": "Tools of Judgment|Cleric|PHB|Veil|GMB-VDC|1"
+                    "subclassFeature": "Tools of Judgment|Cleric|PHB|Veil|VeilDomain|1"
                 },
                 {
                     "type": "refSubclassFeature",
-                    "subclassFeature": "Equilibrium|Cleric|PHB|Veil|GMB-VDC|1"
+                    "subclassFeature": "Equilibrium|Cleric|PHB|Veil|VeilDomain|1"
                 }
             ]
         },
         {
             "name": "Domain Spells",
-            "source": "GMB-VDC",
+            "source": "VeilDomain",
             "level": 1,
             "className": "Cleric",
             "classSource": "PHB",
             "subclassShortName": "Veil",
-            "subclassSource": "GMB-VDC",
+            "subclassSource": "VeilDomain",
             "header": 1,
             "entries": [
                 "You gain domain spells at the cleric levels listed in the Veil Domain Spells table. See the Divine Domain class feature for how domain spells work.",
@@ -112,12 +145,12 @@
         },
         {
             "name": "Tools of Judgment",
-            "source": "GMB-VDC",
+            "source": "VeilDomain",
             "level": 1,
             "className": "Cleric",
             "classSource": "PHB",
             "subclassShortName": "Veil",
-            "subclassSource": "GMB-VDC",
+            "subclassSource": "VeilDomain",
             "header": 1,
             "entries": [
                 "You are prepared to make the hard decisions as to who deserves to live or die. You gain proficiency with the {@item herbalism kit|phb} and the {@item poisoner's kit|phb}. You also gain the {@spell Spare the Dying} and {@spell Chill Touch} cantrips, which count as cleric cantrips for you, and don't count against the number of cleric cantrips you know."
@@ -125,12 +158,12 @@
         },
         {
             "name": "Equilibrium",
-            "source": "GMB-VDC",
+            "source": "VeilDomain",
             "level": 1,
             "className": "Cleric",
             "classSource": "PHB",
             "subclassShortName": "Veil",
-            "subclassSource": "GMB-VDC",
+            "subclassSource": "VeilDomain",
             "header": 1,
             "entries": [
                 "You are able to protect those who deserve to live, even as you destroy those you have chosen to die. When you cast a cleric spell of 1st level or higher that deals damage, you can immediately use your reaction to grant a creature within 30 feet of you that you can see a number of temporary hit points equal to your cleric level + your Wisdom modifier.",
@@ -139,12 +172,12 @@
         },
         {
             "name": "Channel Divinity: Choosing Sides",
-            "source": "GMB-VDC",
+            "source": "VeilDomain",
             "level": 2,
             "className": "Cleric",
             "classSource": "PHB",
             "subclassShortName": "Veil",
-            "subclassSource": "GMB-VDC",
+            "subclassSource": "VeilDomain",
             "header": 2,
             "entries": [
                 "You can use your Channel Divinity to mark a creature as belonging on one side of the veil. You choose whether to mark them for the side of the dead or the side of the living when you use this feature.",
@@ -160,12 +193,12 @@
         },
         {
             "name": "Channel Divinity: Iron Curtain",
-            "source": "GMB-VDC",
+            "source": "VeilDomain",
             "level": 6,
             "className": "Cleric",
             "classSource": "PHB",
             "subclassShortName": "Veil",
-            "subclassSource": "GMB-VDC",
+            "subclassSource": "VeilDomain",
             "header": 2,
             "entries": [
                 "You are able to use your Channel Divinity to enforce your decisions regarding life and death. When you heal or deal damage to a creature within 5 feet of you, you can expend a use of your Channel Divinity to choose a number of creatures which you can see within 30 feet equal to your Wisdom modifier.",
@@ -174,12 +207,12 @@
         },
         {
             "name": "Potent Spell Casting",
-            "source": "GMB-VDC",
+            "source": "VeilDomain",
             "level": 8,
             "className": "Cleric",
             "classSource": "PHB",
             "subclassShortName": "Veil",
-            "subclassSource": "GMB-VDC",
+            "subclassSource": "VeilDomain",
             "header": 2,
             "entries": [
                 "Starting at 8th level, you add your Wisdom modifier to the damage you deal with any cleric cantrip."
@@ -187,12 +220,12 @@
         },
         {
             "name": "Turn the Veil",
-            "source": "GMB-VDC",
+            "source": "VeilDomain",
             "level": 17,
             "className": "Cleric",
             "classSource": "PHB",
             "subclassShortName": "Veil",
-            "subclassSource": "GMB-VDC",
+            "subclassSource": "VeilDomain",
             "header": 2,
             "entries": [
                 "You are able to turn the tides of a creature's fate to ensure they live or die. When a creature within 30 feet of you which you can see regains hit points or takes necrotic damage, you can use your reaction to convert healing to necrotic damage or necrotic damage to healing.",
