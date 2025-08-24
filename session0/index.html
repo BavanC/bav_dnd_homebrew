@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&D Player Questionnaire</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-tertiary: #0f3460;
+            --accent-gold: #ffd700;
+            --accent-crimson: #dc143c;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --text-muted: #808080;
+            --border-color: #444;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --warning-color: #ffc107;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .background-texture {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(220, 20, 60, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: rgba(22, 33, 62, 0.8);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .progress-container {
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            margin-bottom: 30px;
+            background: rgba(22, 33, 62, 0.95);
+            border-radius: 10px;
+            padding: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-crimson));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .question-section {
+            background: rgba(22, 33, 62, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(5px);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .question-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .question-number {
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-crimson));
+            color: var(--bg-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 15px;
+            flex-shrink: 0;
+            font-size: 1.1rem;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .question-required {
+            color: var(--accent-crimson);
+            margin-left: 5px;
+        }
+
+        .input-group {
+            margin-top: 15px;
+        }
+
+        .text-input {
+            width: 100%;
+            background: rgba(15, 52, 96, 0.7);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 120px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+        }
+
+        .text-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .radio-option:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: var(--accent-gold);
+        }
+
+        .radio-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .radio-custom {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            margin-right: 12px;
+            position: relative;
+            flex-shrink: 0;
+            margin-top: 2px;
+            transition: border-color 0.3s ease;
+        }
+
+        .radio-option input[type="radio"]:checked + .radio-custom {
+            border-color: var(--accent-gold);
+        }
+
+        .radio-option input[type="radio"]:checked + .radio-custom::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+        }
+
+        .radio-label {
+            color: var(--text-primary);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .rating-matrix {
+            overflow-x: auto;
+        }
+
+        .rating-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .rating-table th,
+        .rating-table td {
+            padding: 12px 8px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .rating-table th {
+            background: rgba(15, 52, 96, 0.7);
+            color: var(--accent-gold);
+            font-weight: 600;
+            font-size: 0.9rem;
+            position: sticky;
+            top: 0;
+        }
+
+        .rating-table td:first-child {
+            text-align: left;
+            font-weight: 500;
+            max-width: 300px;
+        }
+
+        .rating-input {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .rating-input input[type="radio"] {
+            opacity: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .rating-input::before {
+            content: '';
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .rating-input:hover::before {
+            border-color: var(--accent-gold);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .rating-input input[type="radio"]:checked + .rating-input::before,
+        .rating-input:has(input[type="radio"]:checked)::before {
+            background: var(--accent-gold);
+            border-color: var(--accent-gold);
+        }
+
+        .rating-input:has(input[type="radio"]:checked)::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--bg-primary);
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(22, 33, 62, 0.8);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin: 0 10px;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-gold), #ffed4a);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .validation-message {
+            margin-top: 8px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .validation-message.error {
+            background: rgba(220, 53, 69, 0.2);
+            color: var(--error-color);
+            border: 1px solid var(--error-color);
+        }
+
+        .validation-message.success {
+            background: rgba(40, 167, 69, 0.2);
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 26, 46, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .loading-content {
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--accent-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 10000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.success {
+            background: var(--success-color);
+        }
+
+        .notification.error {
+            background: var(--error-color);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .question-section {
+                padding: 20px;
+            }
+
+            .question-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .question-number {
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+
+            .rating-table {
+                font-size: 0.9rem;
+            }
+
+            .rating-table th,
+            .rating-table td {
+                padding: 8px 4px;
+            }
+
+            .btn {
+                display: block;
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .question-section {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+
+            .rating-table {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* Focus styles for keyboard navigation */
+        .radio-option:focus-within {
+            outline: 2px solid var(--accent-gold);
+            outline-offset: 2px;
+        }
+
+        .rating-input:focus-within {
+            outline: 2px solid var(--accent-gold);
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            .progress-container,
+            .form-footer {
+                display: none;
+            }
+            
+            .question-section {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-texture"></div>
+    
+    <div class="container">
+        <header class="header">
+            <h1>D&D Player Questionnaire</h1>
+            <p>Help us create the perfect adventure for you! Please take a few minutes to answer these questions so we can tailor the game to everyone's preferences.</p>
+        </header>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">0% Complete</div>
+        </div>
+
+        <form id="dnd-questionnaire" novalidate>
+            <div id="questions-container">
+                <!-- Questions will be dynamically generated here -->
+            </div>
+
+            <div class="form-footer">
+                <button type="button" class="btn btn-secondary" id="saveProgressBtn">Save Progress</button>
+                <button type="button" class="btn btn-secondary" id="loadProgressBtn">Load Saved Progress</button>
+                <button type="submit" class="btn btn-primary" id="submitBtn">Submit Questionnaire</button>
+                
+                <div class="validation-message" id="formValidation"></div>
+                
+                <p style="margin-top: 20px; color: var(--text-muted); font-size: 0.9rem;">
+                    Your responses will be sent to bc463@cantab.ac.uk. All information is kept confidential and used solely for D&D game preparation.
+                </p>
+            </div>
+        </form>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Sending your questionnaire...</p>
+        </div>
+    </div>
+
+    <script>
+        // Questions data structure parsed from questions.md
+        const questionsData = [
+            {
+                id: 1,
+                text: "What is your name? What excites you about D&D? Do you already have a character concept in mind? If so, what is it?",
+                type: "textarea",
+                required: true,
+                placeholder: "Tell us about yourself and your D&D interests..."
+            },
+            {
+                id: 2,
+                text: "How would you describe your experience with D&D?",
+                type: "radio",
+                required: true,
+                options: [
+                    "I've been in too many games to count. Been playing for years and years, all the time.",
+                    "Been playing for a while. I know what it's all about and how it works.",
+                    "I have a basic understanding of how the game is played.",
+                    "I've never played before, and this is all new to me."
+                ]
+            },
+            {
+                id: 3,
+                text: "How do you feel about alcohol at the table?",
+                type: "radio",
+                required: true,
+                options: [
+                    "Bring in the booze! Let's roll dice and get wasted!",
+                    "A few drinks now and then is a great way to relax.",
+                    "I don't drink personally, but I don't mind if others drink at the table.",
+                    "I'd prefer to leave alcohol out of the equation."
+                ]
+            },
+            {
+                id: 4,
+                text: "What is your preferred level of attention during the game?",
+                type: "radio",
+                required: true,
+                options: [
+                    "I'm so invested in the game! No distractions, except for bathroom breaks!",
+                    "My attention tends to wander after an hour or two. A break every now and then is good.",
+                    "D&D is supposed to be a casual hangout for fun. The last thing I need is more stress.",
+                    "When my character isn't actively doing something, I'll be playing on my phone or something."
+                ]
+            },
+            {
+                id: 5,
+                text: "How do you feel about sexual content in the game? (note: rape is never an acceptable topic in my games)",
+                type: "radio",
+                required: true,
+                options: [
+                    "I like to explore sexual themes through my character. None of this \"fade to black\" nonsense.",
+                    "So long as we're PG-13-ish, I'm cool with it.",
+                    "It's fun to joke about, but I would be uncomfortable if it actually came up in the story.",
+                    "No sexual content please."
+                ]
+            },
+            {
+                id: 6,
+                text: "How do you feel about violence and gore in the game?",
+                type: "radio",
+                required: true,
+                options: [
+                    "I won't be satisfied until we're wading through rivers of blood!",
+                    "I enjoy the gritty realism of medieval violence. If someone's arm gets ripped off, let's not trivialize it.",
+                    "Quick description and move on. I don't need to smell the blood.",
+                    "No need to make it gross. I mean, we're fighting monsters, but come on."
+                ]
+            },
+            {
+                id: 7,
+                text: "What about religious topics?",
+                type: "radio",
+                required: true,
+                options: [
+                    "Maybe my character worships Asmodeus, Lord of the Nine Hells. Nothing wrong with that.",
+                    "I don't have any issue with religious topics in the game.",
+                    "I'm fine with the existence of deities in D&D, but I don't want to interact with that aspect.",
+                    "I am uncomfortable with the idea of a pantheon of gods in the world of D&D."
+                ]
+            },
+            {
+                id: 8,
+                text: "In-game racial discrimination?",
+                type: "radio",
+                required: true,
+                options: [
+                    "If a tiefling and a drow walk into a human tavern, they'd better expect trouble.",
+                    "If it makes sense for the world of the story, then we should play true to that.",
+                    "I find it distasteful, even if it's realistic. This is a fantasy world, let me fantasize.",
+                    "I would become uncomfortable if this topic came up in the game."
+                ]
+            },
+            {
+                id: 9,
+                text: "Swearing?",
+                type: "radio",
+                required: true,
+                options: [
+                    "$#!@ #&%! all day long!",
+                    "So long as we're not dropping F-bombs every other word, I'm fine.",
+                    "When it's appropriate.",
+                    "Come on, guys. Keep it clean."
+                ]
+            },
+            {
+                id: 10,
+                text: "Do you have any other content concerns or topics you would rather avoid during the game?",
+                type: "textarea",
+                required: false,
+                placeholder: "Any other topics or themes you'd prefer to avoid..."
+            },
+            {
+                id: 11,
+                text: "How do you feel about PvP (Player vs Player)?",
+                type: "radio",
+                required: true,
+                options: [
+                    "If my character decides that your character has to die, then that's what's gonna happen!",
+                    "Exploring inter-character conflict is very interesting when done properly and respectfully.",
+                    "Little contests and roleplaying through arguments is fun sometimes.",
+                    "Why can't we just be a team? That would be way more fun for me."
+                ]
+            },
+            {
+                id: 12,
+                text: "How do you feel about player character secrets?",
+                type: "radio",
+                required: true,
+                options: [
+                    "Secrets and intrigue are the coolest. I wanna be surprised!",
+                    "I'm all for it, so long as it doesn't end up killing my character.",
+                    "I'd rather know what I'm getting into beforehand, even if my character doesn't.",
+                    "I would rather not lie or be lied to, even if we all know it's just pretend."
+                ]
+            },
+            {
+                id: 13,
+                text: "What do you most enjoy about D&D?",
+                type: "rating_matrix",
+                required: true,
+                scale: ["The Best Fun There Is", "Very Enjoyable", "It's Okay", "Not Very Fun", "I'd Rather Die"],
+                items: [
+                    "Tactical combat and finding the best route to success.",
+                    "Coming up with cool stories and fun dramatic situations.",
+                    "Making my character the most effective they can be.",
+                    "Gaining XP and treasure!",
+                    "Killing lots of weird stuff!",
+                    "Hanging out with my awesome friends.",
+                    "Getting deep in the roleplay of my character.",
+                    "Exploring fantastic situations that I could never experience in real life.",
+                    "Causing as much mayhem as possible.",
+                    "Following the rules of the game to the letter.",
+                    "Solving puzzles and riddles.",
+                    "Trying out new and interesting game mechanics.",
+                    "Exploring awesome worlds and locations.",
+                    "Having an excuse to abuse or bully the other players through my character."
+                ]
+            },
+            {
+                id: 14,
+                text: "How much humor do you like in the game?",
+                type: "radio",
+                required: true,
+                options: [
+                    "Keep the funnies going! I wanna be ROFLing the whole time!",
+                    "If there's an opportunity for a joke to be made, let's go for it.",
+                    "I probably won't make a whole lot of jokes myself, but I'm okay if others do so.",
+                    "I feel like constantly joking around really dilutes the atmosphere and the story."
+                ]
+            },
+            {
+                id: 15,
+                text: "You suddenly become uncomfortable with something happening at the table. How would you prefer the issue be resolved?",
+                type: "radio",
+                required: true,
+                options: [
+                    "I tell the offender that I am uncomfortable, and they stop.",
+                    "I quietly tap an X-Card on the table as a signal to everyone, and we move on.",
+                    "I text the DM or talk to them after the session, so we can resolve it for next session.",
+                    "I keep it bottled up inside and don't say anything, hoping that it will resolve itself."
+                ]
+            },
+            {
+                id: 16,
+                text: "How do you feel about player character death?",
+                type: "radio",
+                required: true,
+                options: [
+                    "I can burn through half a dozen characters in a row. I don't care, keep killing them!",
+                    "If the dice fall that way, then that's what happened. Gotta be more careful next time.",
+                    "Player characters should have a little bit of plot armor, to make it less likely. Unless it's a dramatically appropriate time for it.",
+                    "I would be devastated if a character died. I would prefer to never deal with that.",
+                    "I have no particular opinion on this topic. I'm down for whatever."
+                ]
+            },
+            {
+                id: 17,
+                text: "How about resurrection magic?",
+                type: "radio",
+                required: true,
+                options: [
+                    "Nah. If you died, you're dead. I don't like how resurrection spells cheapen the entire experience.",
+                    "I like those house rules that add a little risk to it. The more times you get resurrected, the lower chance it will work again.",
+                    "If you have access to those spells, then that's all you need. Maybe even some plot resurrections for lower level characters.",
+                    "I'd like to just respawn at a safe location after every death, automatically.",
+                    "I have no particular opinion on this topic. I'm down for whatever."
+                ]
+            },
+            {
+                id: 18,
+                text: "Alignment?",
+                type: "radio",
+                required: true,
+                options: [
+                    "I roleplay my character almost entirely based off the alignment I write down.",
+                    "Alignment is supposed to be descriptive, not prescriptive. Just a loose guideline.",
+                    "I write it down, but I don't really think about it. I just roleplay my character based on other factors.",
+                    "Alignment is an archaic and outdated aspect of the game. I'd rather not deal with it at all.",
+                    "I have no particular opinion on this topic. I'm down for whatever."
+                ]
+            },
+            {
+                id: 19,
+                text: "What level of roleplaying are you most comfortable with?",
+                type: "radio",
+                required: true,
+                options: [
+                    "I like to costume up and speak almost exclusively in-character, accents and all.",
+                    "I might try an accent or a funny voice for my character, and engage in roleplay conversations.",
+                    "Every now and then, I'll talk in-character. But mostly I like to refer to them in the third person.",
+                    "I prefer to just describe what my character does in the third person."
+                ]
+            },
+            {
+                id: 20,
+                text: "What level of player agency are you most comfortable with?",
+                type: "radio",
+                required: true,
+                options: [
+                    "If I don't have full control over my character's every thought and impulse, I'm upset. Do NOT take control of my character or tell me what they do.",
+                    "The DM can shortcut obvious decisions sometimes to get on with the story.",
+                    "If my character gets drunk or charmed, I'm okay with the DM making certain decisions for them.",
+                    "The DM might have a better idea of what my character knows than I do. I'm okay with corrections based on that."
+                ]
+            },
+            {
+                id: 21,
+                text: "Thoughts on the spotlight and sharing thereof?",
+                type: "radio",
+                required: true,
+                options: [
+                    "I like to be the center of attention and the one doing things.",
+                    "I tend to be the one who takes the lead in adventures.",
+                    "I think everyone should get their turn in the spotlight.",
+                    "I don't like it when everyone's looking at me and waiting for me to do something. Get that spotlight off me, please."
+                ]
+            },
+            {
+                id: 22,
+                text: "Meta-gaming: the sharing and use of knowledge that the player characters should not have access to. Thoughts on it?",
+                type: "radio",
+                required: true,
+                options: [
+                    "Play your character as honestly as possible, even if it means making things much worse for the party.",
+                    "My character doesn't know they made a bad Stealth check. So they'll proceed as if they think they're sneaky.",
+                    "My character is smarter than I am at living in this fantasy world. If anything, they should know MORE than I do.",
+                    "Free sharing of information. It's much easier that way.",
+                    "I have no particular opinion on this topic. I'm down for whatever."
+                ]
+            },
+            {
+                id: 23,
+                text: "How frequently would you like to play in this adventure?",
+                type: "radio",
+                required: true,
+                options: [
+                    "As often as possible! Let's get this done!",
+                    "Once a week works best for me.",
+                    "Once every two weeks.",
+                    "Once a month is the best I can commit to.",
+                    "I have no particular opinion on this topic. I'm down for whatever."
+                ]
+            },
+            {
+                id: 24,
+                text: "How long would you like game sessions to be?",
+                type: "radio",
+                required: true,
+                options: [
+                    "At least 6 hours! Maybe even an all-nighter!",
+                    "3-6 hours is a good range, with breaks along the way.",
+                    "2-3 hours is best for me.",
+                    "1-2 hours, tops.",
+                    "I have no particular opinion on this topic. I'm down for whatever."
+                ]
+            },
+            {
+                id: 25,
+                text: "What kind of adventure/campaign length are you looking for in this instance?",
+                type: "radio",
+                required: true,
+                options: [
+                    "I'm ready to commit to a years-long epic campaign. Let's go to level 20, baby!",
+                    "A couple months to a year. Let's see how far we get!",
+                    "Looking for something a little more bite-sized. Like a few weeks.",
+                    "Just a one-shot. One session and done.",
+                    "I have no particular opinion on this topic. I'm down for whatever."
+                ]
+            },
+            {
+                id: 26,
+                text: "What should happen if a player cannot make it to a session?",
+                type: "radio",
+                required: true,
+                options: [
+                    "We go on without them! I guess they just head back to town or get sick or something.",
+                    "We play without them, but maybe the DM or another player controls them in combat.",
+                    "Maybe it's a shorter roleplay session or something. We just don't move too far ahead in the story.",
+                    "We wait until everyone can get together at once. No player left behind!",
+                    "I have no particular opinion on this topic. I'm down for whatever."
+                ]
+            },
+            {
+                id: 27,
+                text: "What is your preferred privacy level for what goes on in the sessions?",
+                type: "radio",
+                required: true,
+                options: [
+                    "Record it and upload it to the public if you want! Or we could livestream!",
+                    "We can record the game sessions, but I would like to be consulted before anything with me in it is uploaded.",
+                    "I'd rather not be recorded, but I'm fine with everyone sharing stories about what happens in our adventures and stuff.",
+                    "I would probably feel embarrassed if other people knew what I was up to in this game.",
+                    "I have no particular opinion on this topic. I'm down for whatever."
+                ]
+            },
+            {
+                id: 28,
+                text: "How do you prefer rules questions be resolved during play?",
+                type: "radio",
+                required: true,
+                options: [
+                    "Let's just come up with a ruling on the fly and keep going. No need to get bogged down by the nitty gritty.",
+                    "If a quick Google search doesn't provide the answer, we just roll a d20 and move on.",
+                    "Let's pull out the rulebooks to find the exact text.",
+                    "If the rulebooks don't have the answers, we go to forums and tweets!",
+                    "I have no particular opinion on this topic. I'm down for whatever."
+                ]
+            },
+            {
+                id: 29,
+                text: "Railroad or Sandbox?",
+                type: "radio",
+                required: true,
+                options: [
+                    "Total sandbox, please. If I catch a whiff of prepared content, I'd like to run in the opposite direction.",
+                    "Loose sandbox. I should be able to do things in whatever order I want, and go in whatever direction seems most interesting.",
+                    "Sandbox on rails. Just give me the story beats along the way, and I'll improvise as we go.",
+                    "Trains are fun! I like to explore all the cool content the DM made for us, the way they intended.",
+                    "I have no particular opinion on this topic. I'm down for whatever."
+                ]
+            },
+            {
+                id: 30,
+                text: "Preferred danger levels?",
+                type: "radio",
+                required: true,
+                options: [
+                    "I want dragons! Dracoliches! With machine guns! Deadly to the max!",
+                    "We're only as heroic as the challenges we face. And if it's hard, it'll only make the victory sweeter.",
+                    "Victory shouldn't be a given, but I also don't want it to be a stressful slog.",
+                    "I like to win. Losing would make me feel frustrated and angry.",
+                    "I have no particular opinion on this topic. I'm down for whatever."
+                ]
+            },
+            {
+                id: 31,
+                text: "Would you ever consider having your character surrender or retreat from battle?",
+                type: "radio",
+                required: true,
+                options: [
+                    "Never! I fight to the death, no exceptions!",
+                    "I probably wouldn't consider it, no. I expect battles to be balanced.",
+                    "If the situation seems too dangerous, I'm outta there!",
+                    "Caution over all else. I'd rather safely disengage than risk harm."
+                ]
+            },
+            {
+                id: 32,
+                text: "How would you feel if your character was captured or incarcerated?",
+                type: "radio",
+                required: true,
+                options: [
+                    "Extremely upset. I do not enjoy the feeling of helplessness, roleplay or otherwise.",
+                    "Fairly fun-ruining. Having options taken away is annoying and tricky.",
+                    "If the story demands it, then I'll play along.",
+                    "I love exploring desperate situations like that. Makes for good story."
+                ]
+            },
+            {
+                id: 33,
+                text: "Any particular pet peeves you have when it comes to Dungeon Masters and/or players?",
+                type: "textarea",
+                required: false,
+                placeholder: "Share any specific behaviors or situations that tend to frustrate you..."
+            },
+            {
+                id: 34,
+                text: "What genres and flavors do you enjoy in D&D?",
+                type: "rating_matrix",
+                required: true,
+                scale: ["The Best Fun There Is", "Very Enjoyable", "It's Okay", "Not Very Fun", "I'd Rather Die"],
+                items: [
+                    "Hack and Slash: kill, loot, repeat",
+                    "Dark Fantasy: curses, darkness, gore",
+                    "Heroic: powerful heroes battling evil",
+                    "Intrigue: plots, deception, social encounters",
+                    "War: troop movements, alliances, espionage",
+                    "Heist: gather intel, get equipped, execute the plan",
+                    "Steampunk: flintlocks, automatons, airships",
+                    "Ancient: Conan-style, low civilization",
+                    "Episodic: monster/plot of the week, Star Trek style",
+                    "Drama: emotional beats, relationships, betrayals",
+                    "Horror: horrifying monsters, insanity, trauma"
+                ]
+            },
+            {
+                id: 35,
+                text: "Opinion on homebrew vs official content?",
+                type: "radio",
+                required: true,
+                options: [
+                    "Officially published content only. I'd rather play it by the book.",
+                    "Homebrew monsters and magic items are fine, but there's plenty of character options already.",
+                    "I like trying out fun homebrew options. Sometimes it's even better than published stuff!",
+                    "The game's almost not worth playing unless you mod the hell out of it.",
+                    "I have no particular opinion on this topic. I'm down for whatever."
+                ]
+            },
+            {
+                id: 36,
+                text: "What level do you generally prefer to start a character at?",
+                type: "radio",
+                required: true,
+                options: [
+                    "1st level. No shortcuts.",
+                    "3rd-5th. That's when you get most of your major class abilities.",
+                    "6th-11th. I wanna fight the cool big monsters!",
+                    "12+. Let's get epic right off the bat!",
+                    "I have no particular opinion on this topic. I'm down for whatever."
+                ]
+            },
+            {
+                id: 37,
+                text: "Opinion on critical successes/fumbles?",
+                type: "radio",
+                required: true,
+                options: [
+                    "Critical hits on attacks are the only real rule in the game. 1s and 20s shouldn't have any extra effect.",
+                    "The power of the natural 20 should not be denied. Fumbles are always annoying, though.",
+                    "So long as we're being reasonable about it, I'm okay with 1s and 20s sometimes having an additional effect.",
+                    "What's the point of playing if we can't have fun with wild outcomes? Let's go wild!",
+                    "I have no particular opinion on this topic. I'm down for whatever."
+                ]
+            },
+            {
+                id: 38,
+                text: "Which classes are you interested in playing?",
+                type: "rating_matrix",
+                required: true,
+                scale: ["Extremely Interested", "Very Interested", "Somewhat Interested", "Not Very Interested", "I'd Rather Die"],
+                items: [
+                    "Artificer",
+                    "Barbarian",
+                    "Bard",
+                    "Cleric",
+                    "Druid",
+                    "Fighter",
+                    "Monk",
+                    "Paladin",
+                    "Ranger",
+                    "Rogue",
+                    "Sorcerer",
+                    "Warlock",
+                    "Wizard",
+                    "Other/Homebrew"
+                ]
+            },
+            {
+                id: 39,
+                text: "Do you have any final thoughts or requests for the upcoming game?",
+                type: "textarea",
+                required: false,
+                placeholder: "Any additional thoughts, requests, or things you'd like the DM to know..."
+            },
+            {
+                id: 40,
+                text: "Do you have any suggestions for this questionnaire? Questions that didn't include an answer that matched your opinion, or questions you feel should be included/excluded?",
+                type: "textarea",
+                required: false,
+                placeholder: "Feedback about this questionnaire itself..."
+            }
+        ];
+
+        // Application state
+        let formData = {};
+        let progressData = {
+            totalQuestions: questionsData.length,
+            answeredQuestions: 0,
+            currentSection: 0
+        };
+
+        // Initialize EmailJS
+        emailjs.init("YOUR_PUBLIC_KEY"); // This needs to be configured
+
+        // DOM Elements
+        const questionsContainer = document.getElementById('questions-container');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const form = document.getElementById('dnd-questionnaire');
+        const submitBtn = document.getElementById('submitBtn');
+        const saveProgressBtn = document.getElementById('saveProgressBtn');
+        const loadProgressBtn = document.getElementById('loadProgressBtn');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const formValidation = document.getElementById('formValidation');
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            generateForm();
+            loadSavedProgress();
+            updateProgress();
+            setupEventListeners();
+        });
+
+        function generateForm() {
+            questionsContainer.innerHTML = '';
+            
+            questionsData.forEach((question, index) => {
+                const questionElement = createQuestionElement(question, index);
+                questionsContainer.appendChild(questionElement);
+            });
+        }
+
+        function createQuestionElement(question, index) {
+            const section = document.createElement('div');
+            section.className = 'question-section';
+            section.setAttribute('data-question-id', question.id);
+
+            const header = document.createElement('div');
+            header.className = 'question-header';
+
+            const number = document.createElement('div');
+            number.className = 'question-number';
+            number.textContent = question.id;
+
+            const textContainer = document.createElement('div');
+            const text = document.createElement('div');
+            text.className = 'question-text';
+            text.textContent = question.text;
+            
+            if (question.required) {
+                const required = document.createElement('span');
+                required.className = 'question-required';
+                required.textContent = '*';
+                required.setAttribute('aria-label', 'Required question');
+                text.appendChild(required);
+            }
+            
+            textContainer.appendChild(text);
+            header.appendChild(number);
+            header.appendChild(textContainer);
+            section.appendChild(header);
+
+            const inputGroup = document.createElement('div');
+            inputGroup.className = 'input-group';
+
+            switch (question.type) {
+                case 'textarea':
+                    inputGroup.appendChild(createTextareaInput(question));
+                    break;
+                case 'radio':
+                    inputGroup.appendChild(createRadioInput(question));
+                    break;
+                case 'rating_matrix':
+                    inputGroup.appendChild(createRatingMatrixInput(question));
+                    break;
+            }
+
+            section.appendChild(inputGroup);
+
+            const validationMessage = document.createElement('div');
+            validationMessage.className = 'validation-message';
+            validationMessage.id = `validation-q${question.id}`;
+            section.appendChild(validationMessage);
+
+            return section;
+        }
+
+        function createTextareaInput(question) {
+            const textarea = document.createElement('textarea');
+            textarea.className = 'text-input';
+            textarea.id = `q${question.id}`;
+            textarea.name = `question_${question.id}`;
+            textarea.placeholder = question.placeholder || 'Your answer...';
+            textarea.setAttribute('aria-describedby', `validation-q${question.id}`);
+            
+            if (question.required) {
+                textarea.setAttribute('aria-required', 'true');
+            }
+
+            textarea.addEventListener('input', function() {
+                handleInputChange(question.id, this.value);
+                autoResize(this);
+            });
+
+            return textarea;
+        }
+
+        function createRadioInput(question) {
+            const container = document.createElement('div');
+            container.className = 'radio-group';
+            container.setAttribute('role', 'radiogroup');
+            container.setAttribute('aria-labelledby', `q${question.id}-label`);
+
+            question.options.forEach((option, index) => {
+                const label = document.createElement('label');
+                label.className = 'radio-option';
+                
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.id = `q${question.id}_${index}`;
+                input.name = `question_${question.id}`;
+                input.value = option;
+                
+                if (question.required) {
+                    input.setAttribute('aria-required', 'true');
+                }
+
+                input.addEventListener('change', function() {
+                    if (this.checked) {
+                        handleInputChange(question.id, this.value);
+                    }
+                });
+
+                const customRadio = document.createElement('span');
+                customRadio.className = 'radio-custom';
+                customRadio.setAttribute('aria-hidden', 'true');
+
+                const labelText = document.createElement('span');
+                labelText.className = 'radio-label';
+                labelText.textContent = option;
+
+                label.appendChild(input);
+                label.appendChild(customRadio);
+                label.appendChild(labelText);
+                container.appendChild(label);
+            });
+
+            return container;
+        }
+
+        function createRatingMatrixInput(question) {
+            const container = document.createElement('div');
+            container.className = 'rating-matrix';
+
+            const table = document.createElement('table');
+            table.className = 'rating-table';
+            table.setAttribute('role', 'table');
+
+            // Create header
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            
+            const emptyHeader = document.createElement('th');
+            emptyHeader.textContent = 'Item';
+            headerRow.appendChild(emptyHeader);
+
+            question.scale.forEach(scaleItem => {
+                const th = document.createElement('th');
+                th.textContent = scaleItem;
+                th.className = 'rating-header';
+                headerRow.appendChild(th);
+            });
+
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // Create body
+            const tbody = document.createElement('tbody');
+            
+            question.items.forEach((item, itemIndex) => {
+                const row = document.createElement('tr');
+                
+                const itemCell = document.createElement('td');
+                itemCell.textContent = item;
+                itemCell.className = 'rating-item';
+                row.appendChild(itemCell);
+
+                question.scale.forEach((scaleItem, scaleIndex) => {
+                    const cell = document.createElement('td');
+                    
+                    const label = document.createElement('label');
+                    label.className = 'rating-input';
+                    
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = `question_${question.id}_item_${itemIndex}`;
+                    input.value = scaleIndex;
+                    input.setAttribute('aria-label', `${item}: ${scaleItem}`);
+                    
+                    if (question.required) {
+                        input.setAttribute('aria-required', 'true');
+                    }
+
+                    input.addEventListener('change', function() {
+                        if (this.checked) {
+                            handleRatingChange(question.id, itemIndex, scaleIndex, scaleItem);
+                        }
+                    });
+
+                    label.appendChild(input);
+                    cell.appendChild(label);
+                    row.appendChild(cell);
+                });
+
+                tbody.appendChild(row);
+            });
+
+            table.appendChild(tbody);
+            container.appendChild(table);
+
+            return container;
+        }
+
+        function handleInputChange(questionId, value) {
+            if (!formData[questionId]) {
+                formData[questionId] = {};
+            }
+            formData[questionId].value = value;
+            formData[questionId].type = 'simple';
+            
+            updateProgress();
+            clearValidationError(questionId);
+            saveToLocalStorage();
+        }
+
+        function handleRatingChange(questionId, itemIndex, scaleIndex, scaleValue) {
+            if (!formData[questionId]) {
+                formData[questionId] = {
+                    type: 'rating_matrix',
+                    values: {}
+                };
+            }
+            formData[questionId].values[itemIndex] = {
+                scaleIndex: scaleIndex,
+                scaleValue: scaleValue
+            };
+            
+            updateProgress();
+            clearValidationError(questionId);
+            saveToLocalStorage();
+        }
+
+        function updateProgress() {
+            const totalQuestions = questionsData.length;
+            let answeredQuestions = 0;
+
+            questionsData.forEach(question => {
+                if (isQuestionAnswered(question)) {
+                    answeredQuestions++;
+                }
+            });
+
+            const percentage = Math.round((answeredQuestions / totalQuestions) * 100);
+            progressFill.style.width = percentage + '%';
+            progressText.textContent = `${percentage}% Complete (${answeredQuestions}/${totalQuestions} questions)`;
+            
+            progressData.answeredQuestions = answeredQuestions;
+        }
+
+        function isQuestionAnswered(question) {
+            const questionData = formData[question.id];
+            if (!questionData) return false;
+
+            if (question.type === 'rating_matrix') {
+                return questionData.values && Object.keys(questionData.values).length === question.items.length;
+            } else {
+                return questionData.value && questionData.value.trim() !== '';
+            }
+        }
+
+        function validateForm() {
+            let isValid = true;
+            const errors = [];
+
+            questionsData.forEach(question => {
+                if (question.required && !isQuestionAnswered(question)) {
+                    isValid = false;
+                    errors.push(`Question ${question.id} is required`);
+                    showValidationError(question.id, 'This question is required');
+                } else {
+                    clearValidationError(question.id);
+                }
+            });
+
+            if (errors.length > 0) {
+                showFormValidation('Please answer all required questions before submitting.', 'error');
+                // Scroll to first error
+                const firstErrorQuestion = document.querySelector('.validation-message.error').closest('.question-section');
+                if (firstErrorQuestion) {
+                    firstErrorQuestion.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            } else {
+                clearFormValidation();
+            }
+
+            return isValid;
+        }
+
+        function showValidationError(questionId, message) {
+            const validationElement = document.getElementById(`validation-q${questionId}`);
+            if (validationElement) {
+                validationElement.textContent = message;
+                validationElement.className = 'validation-message error';
+                validationElement.style.display = 'block';
+            }
+        }
+
+        function clearValidationError(questionId) {
+            const validationElement = document.getElementById(`validation-q${questionId}`);
+            if (validationElement) {
+                validationElement.style.display = 'none';
+                validationElement.className = 'validation-message';
+            }
+        }
+
+        function showFormValidation(message, type) {
+            formValidation.textContent = message;
+            formValidation.className = `validation-message ${type}`;
+            formValidation.style.display = 'block';
+        }
+
+        function clearFormValidation() {
+            formValidation.style.display = 'none';
+            formValidation.className = 'validation-message';
+        }
+
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.max(120, textarea.scrollHeight) + 'px';
+        }
+
+        function saveToLocalStorage() {
+            try {
+                localStorage.setItem('dnd_questionnaire_draft', JSON.stringify({
+                    formData: formData,
+                    timestamp: new Date().toISOString()
+                }));
+            } catch (error) {
+                console.warn('Could not save to localStorage:', error);
+            }
+        }
+
+        function loadSavedProgress() {
+            try {
+                const saved = localStorage.getItem('dnd_questionnaire_draft');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    formData = data.formData || {};
+                    restoreFormValues();
+                    updateProgress();
+                }
+            } catch (error) {
+                console.warn('Could not load from localStorage:', error);
+            }
+        }
+
+        function restoreFormValues() {
+            Object.keys(formData).forEach(questionId => {
+                const questionData = formData[questionId];
+                const question = questionsData.find(q => q.id == questionId);
+                
+                if (!question) return;
+
+                if (question.type === 'textarea') {
+                    const textarea = document.getElementById(`q${questionId}`);
+                    if (textarea && questionData.value) {
+                        textarea.value = questionData.value;
+                        autoResize(textarea);
+                    }
+                } else if (question.type === 'radio') {
+                    const radio = document.querySelector(`input[name="question_${questionId}"][value="${questionData.value}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                    }
+                } else if (question.type === 'rating_matrix' && questionData.values) {
+                    Object.keys(questionData.values).forEach(itemIndex => {
+                        const rating = questionData.values[itemIndex];
+                        const input = document.querySelector(`input[name="question_${questionId}_item_${itemIndex}"][value="${rating.scaleIndex}"]`);
+                        if (input) {
+                            input.checked = true;
+                        }
+                    });
+                }
+            });
+        }
+
+        function formatFormDataForEmail() {
+            const timestamp = new Date().toISOString();
+            let emailBody = `D&D Player Questionnaire Response\nSubmitted: ${timestamp}\n\n`;
+
+            questionsData.forEach(question => {
+                const questionData = formData[question.id];
+                emailBody += `--- QUESTION ${question.id} ---\n`;
+                emailBody += `${question.text}\n\n`;
+
+                if (questionData) {
+                    if (question.type === 'rating_matrix') {
+                        if (questionData.values) {
+                            question.items.forEach((item, index) => {
+                                const rating = questionData.values[index];
+                                if (rating) {
+                                    emailBody += `${item}: ${question.scale[rating.scaleIndex]}\n`;
+                                } else {
+                                    emailBody += `${item}: [No response]\n`;
+                                }
+                            });
+                        }
+                    } else {
+                        emailBody += `Answer: ${questionData.value || '[No response]'}\n`;
+                    }
+                } else {
+                    emailBody += `Answer: [No response]\n`;
+                }
+                emailBody += `\n`;
+            });
+
+            return emailBody;
+        }
+
+        function submitForm() {
+            if (!validateForm()) {
+                return;
+            }
+
+            showLoading(true);
+            
+            const emailBody = formatFormDataForEmail();
+            const subject = `D&D Questionnaire Response - ${new Date().toLocaleDateString()}`;
+
+            // For demo purposes, we'll show a success message
+            // In production, you would configure EmailJS properly
+            setTimeout(() => {
+                showLoading(false);
+                showNotification('Questionnaire submitted successfully! Thank you for your responses.', 'success');
+                
+                // Clear the form
+                form.reset();
+                formData = {};
+                updateProgress();
+                localStorage.removeItem('dnd_questionnaire_draft');
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 2000);
+
+            // Uncomment and configure for actual EmailJS usage:
+            /*
+            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
+                to_email: 'bc463@cantab.ac.uk',
+                subject: subject,
+                message: emailBody,
+                from_name: formData[1]?.value?.split(/[.!?]/)[0] || 'Anonymous'
+            }).then(function(response) {
+                showLoading(false);
+                showNotification('Questionnaire submitted successfully! Thank you for your responses.', 'success');
+                
+                // Clear the form
+                form.reset();
+                formData = {};
+                updateProgress();
+                localStorage.removeItem('dnd_questionnaire_draft');
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }).catch(function(error) {
+                showLoading(false);
+                showNotification('Failed to submit questionnaire. Please try again or contact the DM directly.', 'error');
+                console.error('EmailJS error:', error);
+            });
+            */
+        }
+
+        function showLoading(show) {
+            loadingOverlay.style.display = show ? 'flex' : 'none';
+            submitBtn.disabled = show;
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Trigger animation
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => document.body.removeChild(notification), 300);
+            }, 5000);
+        }
+
+        function setupEventListeners() {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitForm();
+            });
+
+            saveProgressBtn.addEventListener('click', function() {
+                saveToLocalStorage();
+                showNotification('Progress saved successfully!', 'success');
+            });
+
+            loadProgressBtn.addEventListener('click', function() {
+                loadSavedProgress();
+                showNotification('Progress loaded successfully!', 'success');
+            });
+
+            // Auto-save on form changes
+            form.addEventListener('change', saveToLocalStorage);
+            form.addEventListener('input', saveToLocalStorage);
+
+            // Keyboard navigation improvements
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && e.target.type === 'radio') {
+                    e.target.checked = true;
+                    e.target.dispatchEvent(new Event('change'));
+                }
+            });
+        }
+
+        // Utility function for accessibility
+        function announceToScreenReader(message) {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.setAttribute('aria-atomic', 'true');
+            announcement.className = 'sr-only';
+            announcement.textContent = message;
+            
+            document.body.appendChild(announcement);
+            
+            setTimeout(() => {
+                document.body.removeChild(announcement);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
